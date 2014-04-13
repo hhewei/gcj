@@ -5,7 +5,7 @@ import Control.Monad
 
 newtype Grid = Grid [[Int]]
 row :: Grid -> Int -> [Int]
-row (Grid rows) n = (rows !! (n - 1))
+row (Grid rows) n = rows !! (n - 1)
 
 readGrid :: IO Grid
 readGrid = Grid `fmap` replicateM 4 readRow
