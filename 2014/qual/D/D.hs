@@ -1,6 +1,12 @@
 {-# LANGUAGE QuasiQuotes, ScopedTypeVariables #-}
-import Data.String.Interpolate
+module D (
+  solveDeceitful,
+  solveWar,
+  main
+  ) where
+
 import Data.List (sort)
+import Data.String.Interpolate
 import Control.Monad
 
 solveDeceitful :: [Double] -> [Double] -> Int
