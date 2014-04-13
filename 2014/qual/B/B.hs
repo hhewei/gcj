@@ -1,13 +1,16 @@
+{-# LANGUAGE QuasiQuotes #-}
+import Data.String.Interpolate
+
 solve :: Double -> Double -> Double -> Double
 solve c f x = optimize 0 0 (x/2)
   where
-    optimize i base total =
-      let base' = base + c / (2 + i*f)
-          total' = base' + x / (2 + (i+1)*f) in
+    optimize k base total =
+      let base' = base + c / (2 + k*f)
+          total' = base' + x / (2 + (k+1)*f) in
       if total <= total' then
         total
       else
-        optimize (i+1) base' total'
+        optimize (k+1) base' total'
 
 solveOneCase :: String -> Double
 solveOneCase input =
@@ -17,11 +20,10 @@ solveOneCase input =
 
 solveCases :: Int -> [String] -> IO ()
 solveCases _ [] = return ()
-solveCases i (h:t) = do
+solveCases n (h:t) = do
   let solution = solveOneCase h
-  putStr "Case #" >> (putStr$ show i) >> putStr ": "
-  print solution
-  solveCases (i+1) t
+  putStrLn [i|Case ##{n}: #{solution}|]
+  solveCases (n+1) t
 
 main :: IO ()
 main = do

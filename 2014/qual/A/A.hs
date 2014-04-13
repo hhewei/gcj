@@ -1,9 +1,11 @@
+{-# LANGUAGE QuasiQuotes #-}
 import Data.List (intersect)
+import Data.String.Interpolate
 
 newtype Grid = Grid [[Int]]
 
 row :: Grid -> Int -> [Int]
-row (Grid rows) i = (rows !! i)
+row (Grid rows) n = (rows !! n)
 
 readRow :: String -> [Int]
 readRow line = let ns = words line in
@@ -31,12 +33,11 @@ solveOneCase _ = undefined
 
 solveCases :: Int -> [String] -> IO ()
 solveCases _ [] = return ()
-solveCases i input = do
+solveCases n input = do
   let (chunk, rest) = splitAt 10 input
       solution = solveOneCase chunk
-  putStr "Case #" >> (putStr $ show i) >> putStr ": "
-  putStrLn solution
-  solveCases (i+1) rest
+  putStrLn [i|Case ##{n}: #{solution}|]
+  solveCases (n+1) rest
 
 main :: IO ()
 main = do

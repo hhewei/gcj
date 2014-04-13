@@ -1,3 +1,5 @@
+{-# LANGUAGE QuasiQuotes #-}
+import Data.String.Interpolate
 import Data.List (sort)
 
 solveDeceitful :: [Double] -> [Double] -> Int
@@ -39,12 +41,13 @@ solveOneCase _ = undefined
 
 solveCases :: Int -> [String] -> IO ()
 solveCases _ [] = return ()
-solveCases i input = do
+solveCases k input = do
   let (chunk, rest) = splitAt 3 input
       (n, m) = solveOneCase chunk
-  putStr "Case #" >> (putStr$ show i) >> putStr ": "
-  (putStr$ show n) >> putStr " " >> (putStrLn$ show m)
-  solveCases (i+1) rest
+  -- putStr "Case #" >> (putStr$ show i) >> putStr ": "
+  -- (putStr$ show n) >> putStr " " >> (putStrLn$ show m)
+  putStrLn [i|Case ##{k}: #{n} #{m}|]
+  solveCases (k+1) rest
 
 main :: IO ()
 main = do
