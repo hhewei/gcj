@@ -1,6 +1,7 @@
-{-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE QuasiQuotes, ScopedTypeVariables #-}
 import Data.String.Interpolate
 import Data.List (sort)
+import Control.Monad
 
 solveDeceitful :: [Double] -> [Double] -> Int
 solveDeceitful naomi ken =
@@ -30,27 +31,13 @@ solveWar naomi ken =
         solve ns ks
     solve _ _ = undefined
 
-solveOneCase :: [String] -> (Int, Int)
-solveOneCase input | length input == 3 =
-  let naomi = map read $ words (input!!1)
-      ken = map read $ words (input!!2)
-      n = solveDeceitful naomi ken
-      m = solveWar naomi ken in
-  (n, m)
-solveOneCase _ = undefined
-
-solveCases :: Int -> [String] -> IO ()
-solveCases _ [] = return ()
-solveCases k input = do
-  let (chunk, rest) = splitAt 3 input
-      (n, m) = solveOneCase chunk
-  -- putStr "Case #" >> (putStr$ show i) >> putStr ": "
-  -- (putStr$ show n) >> putStr " " >> (putStrLn$ show m)
-  putStrLn [i|Case ##{k}: #{n} #{m}|]
-  solveCases (k+1) rest
-
 main :: IO ()
 main = do
-  (_: rest) <- lines `fmap` getContents
-  solveCases 1 rest
-
+  (n :: Int) <- read `fmap` getLine
+  forM_ [1..n] $ \k -> do
+    _ <- getLine
+    naomi <- (map read . words) `fmap` getLine
+    ken <- (map read . words) `fmap` getLine
+    let d = solveDeceitful naomi ken
+        w = solveWar naomi ken 
+    putStrLn [i|Case ##{k}: #{d} #{w}|]
