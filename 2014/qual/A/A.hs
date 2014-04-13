@@ -1,47 +1,34 @@
-{-# LANGUAGE QuasiQuotes #-}
+{-# LANGUAGE QuasiQuotes, ScopedTypeVariables #-}
 import Data.List (intersect)
 import Data.String.Interpolate
+import Control.Monad
 
 newtype Grid = Grid [[Int]]
-
 row :: Grid -> Int -> [Int]
-row (Grid rows) n = (rows !! n)
+row (Grid rows) n = (rows !! (n - 1))
 
-readRow :: String -> [Int]
-readRow line = let ns = words line in
-  map read ns
+readGrid :: IO Grid
+readGrid = Grid `fmap` replicateM 4 readRow
+  where
+    readRow = do
+      ns <- words `fmap` getLine
+      return $ map read ns
 
-readGrid :: [String] -> Grid
-readGrid [r1, r2, r3, r4] = Grid$ map readRow [r1, r2, r3, r4]
-readGrid _ = undefined
-
-solveOneCase :: [String] -> String
-solveOneCase input | length input == 10 =
-  let a1 = read$ input!!0
-      g1 = readGrid$ (input!!) `map` [1,2,3,4]
-      a2 = read$ input!!5
-      g2 = readGrid$ (input!!) `map` [6,7,8,9]
-      s1 = g1 `row` (a1-1)
-      s2 = g2 `row` (a2-1)
-      r = s1 `intersect` s2 in
-  case r of
+solveCase :: Int -> Grid -> Int -> Grid -> String
+solveCase a1 g1 a2 g2 =
+  let s1 = g1 `row` a1
+      s2 = g2 `row` a2 in
+  case s1 `intersect` s2 of
     [n] -> show n
     [] -> "Volunteer cheated!"
     _ -> "Bad magician!"
-      
-solveOneCase _ = undefined
-
-solveCases :: Int -> [String] -> IO ()
-solveCases _ [] = return ()
-solveCases n input = do
-  let (chunk, rest) = splitAt 10 input
-      solution = solveOneCase chunk
-  putStrLn [i|Case ##{n}: #{solution}|]
-  solveCases (n+1) rest
 
 main :: IO ()
 main = do
-  c <- getContents
-  let (_ : rest) = lines c
-  solveCases 1 rest
-
+  (n :: Int) <- read `fmap` getLine
+  forM_ [1..n] $ \k -> do
+    a1 <- read `fmap` getLine
+    g1 <- readGrid
+    a2 <- read `fmap` getLine
+    g2 <- readGrid
+    putStrLn [i|Case ##{k}: #{solveCase a1 g1 a2 g2}|]
