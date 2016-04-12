@@ -30,6 +30,12 @@ executable B
                        interpolate
   default-language:    Haskell2010
 
+executable C
+  main-is:             C/C.hs
+  build-depends:       base >= 4.6 && <4.7,
+                       interpolate
+  default-language:    Haskell2010
+
 executable D
   main-is:             D/D.hs
   build-depends:       base >= 4.6 && <4.7, 
