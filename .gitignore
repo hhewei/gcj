@@ -4,3 +4,4 @@ cabal.sandbox.config
 dist
 *.hi
 *.o
+.stack-work
