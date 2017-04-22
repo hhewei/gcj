@@ -5,3 +5,5 @@ dist
 *.hi
 *.o
 .stack-work
+a.out
+a.out.dSYM

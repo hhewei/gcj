@@ -57,6 +57,21 @@ executable gcj2017-qual-D
                      , fgl
   default-language:    Haskell2010
 
+executable gcj2017-round1A-B
+  hs-source-dirs:      app/round1A/B
+  main-is:             B.hs
+  ghc-options:         -O2 -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+  default-language:    Haskell2010
+
+executable gcj2017-round1A-C-small
+  hs-source-dirs:      app/round1A/C
+  main-is:             C-small.hs
+  ghc-options:         -O2 -threaded -rtsopts -with-rtsopts=-N
+  build-depends:       base
+                     , containers
+  default-language:    Haskell2010
+
 -- test-suite gcj2017-test
 --   type:                exitcode-stdio-1.0
 --   hs-source-dirs:      test
